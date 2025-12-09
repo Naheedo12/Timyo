@@ -1,19 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import Dashboard from "./pages/Dashboard";
+import { getUser } from "./api/authService";
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [isRegister, setIsRegister] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await getUser().catch(() => null);
+      setUser(res ? res.data : null);
+    };
+    fetchUser();
+  }, []);
+
+  // Si user connecté = afficher dashboard
+  if (user) return <Dashboard user={user} setUser={setUser} />;
+
+  // Sinon = Login ou Register
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="p-6 rounded-2xl shadow-xl bg-white">
-        <h1 className="text-3xl font-bold text-blue-600">
-          Tailwind fonctionne 🎉
-        </h1>
-        <p className="mt-2 text-gray-700">
-          Si tu vois ce texte stylé, Tailwind est bien installé.
-        </p>
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-pink-50">
+      {isRegister ? (
+        <RegisterPage goLogin={() => setIsRegister(false)} setUser={setUser} />
+      ) : (
+        <LoginPage setUser={setUser} goRegister={() => setIsRegister(true)} />
+      )}
     </div>
   );
 }
