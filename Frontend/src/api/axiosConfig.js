@@ -5,6 +5,11 @@ const API_URL = "http://localhost:8000";
 const axiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: true,
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest',
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  }
 });
 
 export default axiosInstance;

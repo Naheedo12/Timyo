@@ -11,18 +11,30 @@ class StoreAppointmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true; 
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'date' => 'required|date|after_or_equal:today',
+            'time' => 'required|date_format:H:i',
+        ];
+    }
+
+    /**
+     * Messages d'erreur 
+     */
+    public function messages(): array
+    {
+        return [
+            'date.required' => 'La date est obligatoire',
+            'date.after_or_equal' => 'La date ne peut pas être dans le passé',
+            'time.required' => 'L\'heure est obligatoire',
+            'time.date_format' => 'L\'heure doit être au format HH:MM',
         ];
     }
 }

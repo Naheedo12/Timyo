@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import Dashboard from "./pages/Dashboard";
+import UserDashboard from "./pages/UserDashboard";
 import { getUser } from "./api/authService";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
   }, []);
 
   // Si user connecté = afficher dashboard
-  if (user) return <Dashboard user={user} setUser={setUser} />;
+  if (user) return <UserDashboard user={user} setUser={setUser} />;
 
   // Sinon = Login ou Register
   return (
