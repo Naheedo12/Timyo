@@ -16,7 +16,7 @@ function App() {
     fetchUser();
   }, []);
 
-  // Si user connecté = afficher dashboard
+  // Si user connecté = aff dashboard
   if (user) return <UserDashboard user={user} setUser={setUser} />;
 
   // Sinon = Login ou Register

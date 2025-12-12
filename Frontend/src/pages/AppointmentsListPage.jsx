@@ -41,7 +41,6 @@ const AppointmentsListPage = ({ user, onCreateNew, onLogout }) => {
           </button>
         </div>
 
-        {/* Appointments list */}
         <div className="bg-white p-4 rounded border space-y-2">
           {appointments.map((apt) => (
             <AppointmentCard

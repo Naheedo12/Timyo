@@ -20,7 +20,6 @@ class AuthController extends Controller
             'role' => 'user', 
         ]);
 
-        // Connecter automatiquement l'utilisateur après l'inscription
         Auth::login($user);
 
         return response()->json([

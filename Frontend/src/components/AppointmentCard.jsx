@@ -11,8 +11,6 @@ const AppointmentCard = ({ appointment, onAppointmentCanceled }) => {
   };
 
   const formatDate = (date) => new Date(date).toLocaleDateString("fr-FR");
-  const isPast = new Date(appointment.date) < new Date();
-  const canCancel = !isPast && appointment.status === "pending";
 
   const statusText = {
     pending: "En attente",
@@ -30,16 +28,12 @@ const AppointmentCard = ({ appointment, onAppointmentCanceled }) => {
         <div className="text-sm font-medium">{statusText}</div>
       </div>
 
-      {canCancel && (
-        <button
-          onClick={handleCancel}
-          className="bg-red-400 text-white px-3 py-1 rounded hover:bg-red-500 transition"
-        >
-          Annuler
-        </button>
-      )}
-
-      {isPast && <div className="text-xs text-gray-500 mt-1">Rendez-vous passé</div>}
+      <button
+        onClick={handleCancel}
+        className="bg-red-400 text-white px-3 py-1 rounded hover:bg-red-500 transition"
+      >
+        Annuler
+      </button>
     </div>
   );
 };
