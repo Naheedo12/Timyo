@@ -26,4 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/appointments', [AppointmentController::class, 'index']);
     Route::post('/appointments', [AppointmentController::class, 'store']);
     Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
+
+    Route::middleware('isAdmin')->group(function () {
+        Route::get('/admin/appointments', [AppointmentController::class, 'adminIndex']);
+        Route::put('/admin/appointments/{appointment}/status', [AppointmentController::class, 'updateStatus']);
+        Route::get('/admin/users', [AuthController::class, 'allUsers']);
+    });
 });

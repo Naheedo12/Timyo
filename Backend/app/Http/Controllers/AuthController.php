@@ -58,4 +58,12 @@ class AuthController extends Controller
     {
         return response()->json($request->user());
     }
+    /**
+     * Admin: Lister tous les utilisateurs
+    */
+    public function allUsers()
+    {
+        $users = User::orderBy('name')->get();
+        return response()->json($users);
+    }
 }

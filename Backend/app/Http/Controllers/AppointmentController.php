@@ -47,22 +47,29 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Annuler un rendez-vous (soft delete ou changement de statut)
+     * Annuler un rendez-vous
      */
     public function destroy(Appointment $appointment)
     {
-        // Vérifier que le rendez-vous appartient à l'utilisateur connecté
-        if ($appointment->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Non autorisé'], 403);
-        }
-
-        // Vérifier que le rendez-vous n'est pas déjà passé
-        if ($appointment->date < now()->toDateString()) {
-            return response()->json(['message' => 'Impossible d\'annuler un rendez-vous passé'], 400);
-        }
-
         $appointment->delete();
+        return response()->json(['message' => 'Rendez-vous annulé']);
+    }
 
-        return response()->json(['message' => 'Rendez-vous annulé avec succès']);
+    /**
+     * Admin: Lister tous les rendez-vous
+     */
+    public function adminIndex()
+    {
+        $appointments = Appointment::with('user')->orderBy('date', 'asc')->get();
+        return response()->json($appointments);
+    }
+
+    /**
+     * Admin: Changer le statut d'un rendez-vous
+     */
+    public function updateStatus(Request $request, Appointment $appointment)
+    {
+        $appointment->update(['status' => $request->status]);
+        return response()->json($appointment);
     }
 }
