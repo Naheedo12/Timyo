@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { logout } from "../api/authService";
-import AppointmentsListPage from "./AppointmentsListPage";
-import CreateAppointmentPage from "./CreateAppointmentPage";
+import UserAppointmentsPage from "./UserAppointmentsPage";
+import UserCreateAppointmentPage from "./UserCreateAppointmentPage";
+import AdminDashboardPage from "./AdminDashboardPage";
 
 const UserDashboard = ({ user, setUser }) => {
   const [currentPage, setCurrentPage] = useState("list"); // "list" ou "create"
@@ -24,18 +25,23 @@ const UserDashboard = ({ user, setUser }) => {
     setCurrentPage("list");
   };
 
-  // Rendu conditionnel selon la page actuelle
+  if (user.role === "admin") {
+    return <AdminDashboardPage user={user} onLogout={handleLogout} />;
+  }
+
   if (currentPage === "create") {
     return (
-      <CreateAppointmentPage
+      <UserCreateAppointmentPage
+        user={user}
         onAppointmentCreated={handleAppointmentCreated}
         onBack={goToListPage}
+        onLogout={handleLogout}
       />
     );
   }
 
   return (
-    <AppointmentsListPage
+    <UserAppointmentsPage
       user={user}
       onCreateNew={goToCreatePage}
       onLogout={handleLogout}
